@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from classifier import classify_job
 import pandas as pd
+import os
 
 app = Flask(__name__)
 
@@ -45,12 +46,18 @@ def upload_csv():
             result = classify_job(title)
 
             results.append(result)
+        #this converts results to data frame
+        results_df = pd.DataFrame(results)
 
-        return jsonify({
-            "total_jobs": len(results),
-            "results": results
-        })
+        output_file = "classified_jobs.csv"
 
+        results_df.to_csv(output_file, index=False)
+
+        return send_file(
+            output_file,
+            as_attachment=True
+        )
+        
     except Exception as e:
         return jsonify({
             "error": str(e)
