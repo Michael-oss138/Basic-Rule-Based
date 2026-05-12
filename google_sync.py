@@ -40,11 +40,11 @@ def upload_results(results):
     for result in results:
 
         row = [
-            result["title"],
-            result["category"],
-            result["confidence"],
-            result["level"],
-            result["remote"]
+            result.get("title", "N/A"),
+            result.get("category", "N/A"),
+            result.get("confidence", "N/A"),
+            result.get("level", "N/A"),
+            result.get("remote", "N/A")
         ]
 
         sheet.append_row(row)

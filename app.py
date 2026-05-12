@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, send_file
+from google_sync import upload_results
 from classifier import classify_job
 import pandas as pd
 import os
@@ -46,6 +47,7 @@ def upload_csv():
             result = classify_job(title)
 
             results.append(result)
+        upload_results(results)
         #this converts results to data frame
         results_df = pd.DataFrame(results)
 
